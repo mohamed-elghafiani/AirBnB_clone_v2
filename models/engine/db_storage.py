@@ -2,6 +2,8 @@
 """DB Storage Module"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -9,7 +11,6 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 import os
-from models.base_model import Base
 
 
 class DBStorage():
@@ -23,12 +24,9 @@ class DBStorage():
         db_passwd = os.environ.get("HBNB_MYSQL_PWD")
         db_host = os.environ.get("HBNB_MYSQL_HOST")
         db_name = os.environ.get("HBNB_MYSQL_DB")
+        env = os.environ.get("HBNB_ENV")
 
-        if os.environ.get("HBNB_ENV") == "test":
-            from models.base_model import Base
-            Base.metadata.drop_all(self.__engine)
-
-        DBStorage.__engine = create_engine(
+        self.__engine = create_engine(
                 'mysql+mysqldb://{}:{}@{}/{}'.format(
                     db_user,
                     db_passwd,
@@ -37,6 +35,9 @@ class DBStorage():
                 ),
                 pool_pre_ping=True
         )
+
+        if env == "test":
+            Base.metadata.drop_all(self.engine)
 
     def all(self, cls=None):
         """Query dababase session by cls"""
