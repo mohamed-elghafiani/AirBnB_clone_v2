@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """DB Storage Module"""
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import Base
@@ -54,7 +54,7 @@ class DBStorage():
         else:
             objs = self.__session.query(cls).all()
             for obj in objs:
-                key = "{}.{}".format(type(cls).__name__, obj.id)
+                key = "{}.{}".format(type(obj).__name__, obj.id)
                 results[key] = obj
 
         return results
