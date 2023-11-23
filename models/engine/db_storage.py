@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """DB Storage Module"""
+from sqlalchemy.orm import scoped_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models.user import User
@@ -8,8 +9,8 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-import os
-from models.base_model import Base
+from os import getenv
+from models.base_model import Base, BaseModel
 
 
 class DBStorage():
