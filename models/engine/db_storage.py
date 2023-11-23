@@ -1,26 +1,13 @@
 #!/usr/bin/python3
 """DB Storage Module"""
-<<<<<<< HEAD
-from sqlalchemy.orm import scoped_session
-from sqlalchemy import create_engine
-=======
 from sqlalchemy import (create_engine)
->>>>>>> fd2e59975f3111fdbaec12133d7cd2578212d71b
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-<<<<<<< HEAD
-from os import getenv
-from models.base_model import Base, BaseModel
-=======
 import os
->>>>>>> beecde560722ccb56bf9ac7a68b10fafaab4d5bc
 
 
 class DBStorage():
@@ -54,7 +41,7 @@ class DBStorage():
         results = {}
 
         if cls is None:
-            classes = [User, State, City, Amenity, Place, Review]
+            classes = [User, State, City]
             for class_ in classes:
                 objs = self.__session.query(class_).all()
                 for obj in objs:
@@ -78,7 +65,8 @@ class DBStorage():
 
     def save(self):
         """commit all changes of the current database session"""
-        self.__session.commit()
+        if self.__session:
+            self.__session.commit()
 
     def delete(self, obj=None):
         """"delete from the current database"""
@@ -90,12 +78,9 @@ class DBStorage():
         from models.user import User
         from models.state import State
         from models.city import City
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
 
         Base.metadata.create_all(self.__engine)
-        session = sessionmaker(bind=self.__engine, expire_on_commit)
+        session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
 
