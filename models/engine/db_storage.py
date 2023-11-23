@@ -42,9 +42,9 @@ class DBStorage():
     def all(self, cls=None):
         """Query dababase session by cls"""
         results = {}
-        classes = [User, State, City, Amenity, Place, Review]
 
         if cls is None:
+            classes = [User, State, City, Amenity, Place, Review]
             for class_ in classes:
                 objs = self.__session.query(class_).all()
                 for obj in objs:
@@ -54,7 +54,7 @@ class DBStorage():
         else:
             objs = self.__session.query(cls).all()
             for obj in objs:
-                key = "{}.{}".format(type(cls).__class__, obj.id)
+                key = "{}.{}".format(type(cls).__name__, obj.id)
                 results[key] = obj
 
         return results
