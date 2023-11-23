@@ -52,6 +52,8 @@ class DBStorage():
                     results[key] = obj
 
         else:
+            if type(cls) is str:
+                cls = eval(cls)
             objs = self.__session.query(cls).all()
             for obj in objs:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
@@ -62,7 +64,7 @@ class DBStorage():
     def new(self, obj):
         """add the object to the current database session"""
         if obj:
-            self.__session(obj)
+            self.__session.add(obj)
 
     def save(self):
         """commit all changes of the current database session"""
