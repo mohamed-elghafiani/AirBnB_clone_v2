@@ -3,14 +3,20 @@
 from sqlalchemy.orm import scoped_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+<<<<<<< HEAD
 from os import getenv
 from models.base_model import Base, BaseModel
+=======
+import os
+>>>>>>> beecde560722ccb56bf9ac7a68b10fafaab4d5bc
 
 
 class DBStorage():
@@ -24,12 +30,9 @@ class DBStorage():
         db_passwd = os.environ.get("HBNB_MYSQL_PWD")
         db_host = os.environ.get("HBNB_MYSQL_HOST")
         db_name = os.environ.get("HBNB_MYSQL_DB")
+        env = os.environ.get("HBNB_ENV")
 
-        if os.environ.get("HBNB_ENV") == "test":
-            from models.base_model import Base
-            Base.metadata.drop_all(self.__engine)
-
-        DBStorage.__engine = create_engine(
+        self.__engine = create_engine(
                 'mysql+mysqldb://{}:{}@{}/{}'.format(
                     db_user,
                     db_passwd,
@@ -38,6 +41,9 @@ class DBStorage():
                 ),
                 pool_pre_ping=True
         )
+
+        if env == "test":
+            Base.metadata.drop_all(self.engine)
 
     def all(self, cls=None):
         """Query dababase session by cls"""
@@ -55,7 +61,9 @@ class DBStorage():
             objs = self.__session.query(cls).all()
             for obj in objs:
                 key = "{}.{}".format(type(cls).__class__, obj.id)
+                results[key] = obj
 
+        return results
 
     def new(self, obj):
         """add the object to the current database session"""
