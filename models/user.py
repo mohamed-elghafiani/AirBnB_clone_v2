@@ -2,9 +2,10 @@
 """This module defines a class User"""
 from models.base_model import BaseModel
 from models.base_model import Base
-from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 from models.place import Place
+
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
