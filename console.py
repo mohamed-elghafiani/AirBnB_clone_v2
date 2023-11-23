@@ -130,10 +130,9 @@ class HBNBCommand(cmd.Cmd):
                 attrs[name] = int(value)
             elif re.match("^-?(\d+\.\d+)$", value):
                 attrs[name] = float(value)
-            elif value.startswith("\""):
-                value = value.replace("_", " ")
-                value = value.replace('"', '\"')
-                attrs[name] = value
+            elif type(value) is str:
+                value = value[1:-1].replace("_", " ").replace('"', '\\"')
+            attrs[name] = str(value)
         
         new_instance = HBNBCommand.classes[args[0]]()
         for (name, value) in attrs.items():
@@ -141,7 +140,6 @@ class HBNBCommand(cmd.Cmd):
 
         new_instance.save()
         print(new_instance.id)
-        # storage.save()
 
     def help_create(self):
         """ Help information for the create method """
