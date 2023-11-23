@@ -35,7 +35,7 @@ class DBStorage():
         )
 
         if env == "test":
-            Base.metadata.drop_all(self.engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Query dababase session by cls"""
@@ -86,3 +86,6 @@ class DBStorage():
         Session = scoped_session(session)
         self.__session = Session()
 
+    def destroy(self):
+        """drops all database tables"""
+        Base.metadata.drop_all(self.__engine)
