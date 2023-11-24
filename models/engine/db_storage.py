@@ -79,7 +79,8 @@ class DBStorage():
         from models.user import User
         from models.state import State
         from models.city import City
-        from models.place import Place
+        from models.place import Place, place_amenity
+        from models.amenity import Amenity
 
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
