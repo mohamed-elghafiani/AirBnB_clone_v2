@@ -47,3 +47,6 @@ echo "http {
 
 events {
 }" | sudo tee /etc/nginx/nginx.conf
+
+# Starting the server
+sudo service nginx start
