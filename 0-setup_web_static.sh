@@ -1,37 +1,49 @@
 #!/usr/bin/env bash
-#Upgrading nginx configuration
+# A script for preparing web servers
 
-# Install nginx if not already installed
-if ! command -v nginx &> /dev/null;
-then
-sudo apt-get update
+# install nginx web server
+sudo apt-get -y update && \
 sudo apt-get -y install nginx
-sudo service nginx start
-fi
 
-#Create directories
-sudo mkdir -p /data/web_static/releases/test/
+# creating the folders/files if doesn't exists
+sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
 
-#Create html file
-sudo sh -c 'echo "Hello World!" > /data/web_static/releases/test/index.html'
+# fake HTML files
+echo "
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fake page!</title>
+  </head>
+  <body>
+    <h3>Hello, from the underworld!!!</3>
+  </body>
+</html>
+" | sudo tee /data/web_static/releases/test/index.html
 
-#Symbolic link 
-source_path="/data/web_static/releases/test/"
-symlink_path="/data/web_static/current"
-if [ -h "$symlink_path" ]; then
-    rm "$symlink_path"
+# Create a symbolik link
+if [ -d /data/web_static/releases/test/ ]
+    sudo rm -r /data/web_static/releases/test/
+    sudo ln -s /data/web_static/current /data/web_static/releases/test/
+else
+    sudo ln -s /data/web_static/current /data/web_static_releases/test/
 fi
 
-#Link paths symbolinkly
-sudo ln -s "$source_path" "$symlink_path"
+# change ownerships
+sudo find /data -exec sudo chown ubuntu:ubuntu {} +
+sudo chown ubuntu:ubuntu /data
 
-#Give user/group permission to ubuntu
-sudo chown -R ubuntu:ubuntu /data/
-sudo chgrp -R ubuntu /data/
+# configuring the web server to serve the content of /data/web_static/current/ to hbnb_static
+sudo cp /etc/nginx/nginx.conf
+echo "http {
+    server {
+        location /hbnb_static {
+            alias /data/web_static/current/
+        }
+    }
+}
 
-#Update the Nginx configuration to serve the content
-df_path="/etc/nginx/sites-available/default"
-new_loc="\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}"
-sudo sed -i "/^\tserver_name _;/a\\$new_loc" $df_path
-sudo service nginx restart
+events {
+}" | sudo tee /etc/nginx/nginx.conf
