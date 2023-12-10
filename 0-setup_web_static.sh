@@ -29,9 +29,9 @@ else
     sudo ln -s /data/web_static/releases/test/ /data/web_static/current
 fi
 
-# change ownerships
-sudo find /data -type f,d -exec sudo chown ubuntu:ubuntu {} +
-sudo chown ubuntu:ubuntu /data
+#Give user/group permission to ubuntu
+sudo chown -R ubuntu:ubuntu /data/
+sudo chgrp -R ubuntu /data/
 
 #Update the Nginx configuration to serve the content
 df_path="/etc/nginx/sites-available/default"
