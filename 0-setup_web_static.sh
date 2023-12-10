@@ -32,18 +32,10 @@ fi
 sudo find /data -type f,d -exec sudo chown ubuntu:ubuntu {} +
 sudo chown ubuntu:ubuntu /data
 
-# configuring the web server to serve the content of /data/web_static/current/ to hbnb_static
-sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old
-echo "http {
-    server {
-        location /hbnb_static {
-            alias /data/web_static/current/
-        }
-    }
-}
-
-events {
-}" | sudo tee /etc/nginx/nginx.conf
+#Update the Nginx configuration to serve the content
+df_path="/etc/nginx/sites-available/default"
+new_loc="\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}"
+sudo sed -i "/^\tserver_name _;/a\\$new_loc" $df_path
 
 # Starting the server
 sudo service nginx start
