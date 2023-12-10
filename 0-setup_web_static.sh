@@ -47,4 +47,4 @@ new_loc="\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}
 sudo sed -i "/^\tserver_name _;/a\\$new_loc" $df_path
 
 # Starting the server
-sudo service nginx start
+sudo service nginx restart
