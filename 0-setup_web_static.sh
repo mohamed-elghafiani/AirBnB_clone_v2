@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# a script for  preparing a web server
 
 # creating the folders/files if doesn't exists
 sudo mkdir -p /data/web_static/releases/
