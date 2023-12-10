@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 # a script for  preparing a web server
 
+# Install nginx if not already installed
+if ! command -v nginx &> /dev/null;
+then
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo service nginx start
+fi
+
 # creating the folders/files if doesn't exists
 sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
