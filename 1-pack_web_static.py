@@ -6,6 +6,7 @@ from datetime import datetime
 
 @task
 def do_pack():
+    """Packing the web_static files"""
     dt = datetime.now()
     tar_file_name = "web_static_{}{}{}{}{}{}".format(
         dt.year,
