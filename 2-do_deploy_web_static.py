@@ -22,7 +22,12 @@ def do_deploy(archive_path):
     run(f"mkdir -p {decompress_path}")
     run(f"tar -xf /tmp/{name_tar_file} -C {decompress_path}")
     run(f"rm /tmp/{name_tar_file}")
-    run(f"rm -r /data/web_static/current")
-    run(f"ln -s {decompress_path} /data/web_static/current")
+    # run(f"rm -r /data/web_static/current")
+    # run(f"ln -s {decompress_path} /data/web_static/current")
+
+    run('mv {}/web_static/* {}/'.format(data_path, data_path))
+    run('rm -rf {}/web_static'.format(data_path))
+    run('rm -rf /data/web_static/current')
+    run('ln -s {} /data/web_static/current'.format(data_path))
     print("Website depolyed successfuly")
     return True
