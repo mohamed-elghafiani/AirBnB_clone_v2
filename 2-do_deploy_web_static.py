@@ -8,9 +8,11 @@ import re
 
 env.hosts = ["100.24.237.78", "3.94.211.44"]
 
+
 @task
 def do_deploy(archive_path):
     """upload compressed file to the server"""
+
     if not os.path.exists(f"{os.getcwd()}/{archive_path}"):
         print("False: Not found")
         return False
