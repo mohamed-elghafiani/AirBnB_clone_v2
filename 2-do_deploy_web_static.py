@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Pack the web_static files"""
-from fabric.api import local, task, env
+from fabric.api import local, task, env, put
 import os
 import re
 
@@ -18,7 +18,7 @@ def do_deploy(archive_path):
     
     name_tar_file = archive_path.split("/")[1]
     put(archive_path, "/tmp/")
-    decompress_path = f"/data/web_static/releases/{name_tar_file.split(".")[0]}/"
+    decompress_path = f"/data/web_static/releases/{name_tar_file.split('.')[0]}/"
     run(f"mkdir -p {decompress_path}")
     run(f"tar -xf /tmp/{name_tar_file} -C {decompress_path}")
     run(f"rm /tmp/{name_tar_file}")
