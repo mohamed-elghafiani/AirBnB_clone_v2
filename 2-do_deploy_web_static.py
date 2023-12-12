@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Pack the web_static files"""
-from fabric.api import local, task
-from datetime import datetime
+from fabric.api import local, task, env
 import os
 import re
 
