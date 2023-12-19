@@ -13,7 +13,6 @@ def do_deploy(archive_path):
     """upload compressed file to the server"""
 
     if not os.path.exists(f"{os.getcwd()}/{archive_path}"):
-        print("False: Not found")
         return False
     
     try:
@@ -28,7 +27,6 @@ def do_deploy(archive_path):
         run('rm -rf {}/web_static'.format(data_path))
         run('rm -rf /data/web_static/current')
         run('ln -s {} /data/web_static/current'.format(data_path))
-        print("Website depolyed successfuly")
         return True
     except:
         return False
