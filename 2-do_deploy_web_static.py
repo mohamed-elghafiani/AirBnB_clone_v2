@@ -20,7 +20,7 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
         decompress_path = f"/data/web_static/releases/{name_tar_file.split('.')[0]}/"
         run(f"mkdir -p {decompress_path}")
-        run(f"tar -xf /tmp/{name_tar_file} -C {decompress_path}")
+        run(f"tar -xzf /tmp/{name_tar_file} -C {decompress_path}")
         run(f"rm /tmp/{name_tar_file}")
 
         run('mv {}/web_static/* {}/'.format(data_path, data_path))
