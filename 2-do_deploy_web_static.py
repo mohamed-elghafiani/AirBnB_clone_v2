@@ -13,20 +13,17 @@ def do_deploy(archive_path):
 
     if not os.path.exists(f"{os.getcwd()}/{archive_path}"):
         return False
-    
-    try:
-        name_tar_file = archive_path.split("/")[-1]
-        decompress_path = f"/data/web_static/releases/{name_tar_file.split('.')[0]}"
 
-        put(archive_path, "/tmp/")
-        run("mkdir -p {}/".format(decompress_path))
-        run(f"tar -xzf /tmp/{name_tar_file} -C {decompress_path}")
-        run(f"rm /tmp/{name_tar_file}")
+    fname = archive_path.split("/")[-1]
+    decompress_path = f"/data/web_static/releases/{fname.split('.')[0]}"
 
-        run('mv {}/web_static/* {}/'.format(decompress_path, decompress_path))
-        run('rm -rf {}/web_static'.format(decompress_path))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {} /data/web_static/current'.format(decompress_path))
-        return True
-    except:
-        return False
+    put(archive_path, "/tmp/")
+    run("mkdir -p {}/".format(decompress_path))
+    run(f"tar -xzf /tmp/{name_tar_file} -C {decompress_path}")
+    run(f"rm /tmp/{name_tar_file}")
+
+    run('mv {}/web_static/* {}/'.format(decompress_path, decompress_path))
+    run('rm -rf {}/web_static'.format(decompress_path))
+    run('rm -rf /data/web_static/current')
+    run('ln -s {} /data/web_static/current'.format(decompress_path))
+    return True
