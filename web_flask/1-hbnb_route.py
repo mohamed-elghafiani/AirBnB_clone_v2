@@ -10,6 +10,7 @@ def home():
     """Home route"""
     return "Hello HBNB!"
 
+
 @app.route("/hbnb")
 def hbnb():
     """hbnb route"""
