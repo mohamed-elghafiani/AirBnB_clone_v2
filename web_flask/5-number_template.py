@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""5. Number template"""
 from flask import Flask, render_template
 
 app = Flask(__name__)
