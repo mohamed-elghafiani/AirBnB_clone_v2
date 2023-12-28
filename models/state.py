@@ -13,8 +13,8 @@ class State(BaseModel, Base):
     __tablename__ = "states"
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
         name = Column(String(128), nullable=False)
-        cities = relationship("City",
-                backref="state",
+        cities = relationship(
+                "City", backref="state",
                 cascade="all, delete, delete-orphan")
     else:
         name = ""
@@ -28,4 +28,3 @@ class State(BaseModel, Base):
                 if self.id == value.state_id:
                     cities_instances.append(value)
             return cities_instances
-
